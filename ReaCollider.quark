@@ -1,0 +1,11 @@
+(
+  name: "ReaCollider",
+  summary: "Generate Reaper Projects from SuperCollider",
+  version: "0.001",
+  schelp: "ReaCollider.schelp",
+  dependencies: nil,
+  license: "GNU GPL v3.0",
+  copyright: "James Bradbury, Mads Kjeldgaard",
+  ext_dependency: ["Reaper"],
+  url: "https://github.com/madskjeldgaard/ReaCollider"
+)
