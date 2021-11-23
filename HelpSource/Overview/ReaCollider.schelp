@@ -1,0 +1,98 @@
+TITLE:: ReaCollider
+SUMMARY:: Overview of ReaCollider
+CATEGORIES:: Tutorials, Server
+RELATED:: Tutorials/Server_Tutorial
+
+SECTION:: Introduction
+
+ReaCollider allows one to create Reaper Projects from SuperCollider.
+
+The following abstractions exist:
+
+LIST::
+## LINK::Classes/ReaProj:: - Used for creating projects and adding tracks to them.
+## LINK::Classes/ReaTrack:: - Used for creating tracks and adding media items to them.
+## LINK::Classes/ReaItem:: - Used for creating a representation of a media item. Includes meta data about it's placement, duration and other properties.
+::
+
+SUBSECTION:: Properties
+
+Each of the abstractions allow the use of properties. For more information about these properties, LINK::https://github.com/ReaTeam/Doc/blob/master/State%20Chunk%20Definitions##see this link.:: All of the properties are used in the form of a dictionary with the name of the property being the key and the value being a string in that key.
+
+Here is an example of using properties to set an item
+code::
+(
+var project = ReaProj.new;
+var props = (
+	NAME: "coolItemName",
+	LOOP: "1",
+	// Playrate, int (bool) preserve pitch, pitch adjust, pitch shifting mode
+	PLAYRATE: "0.5 0 0.000 -1"
+);
+var track = ReaTrack.new();
+var item = ReaItem.new(
+	source:Platform.systemAppSupportDir +/+ "sounds" +/+ "a11wlk01.wav",
+	start:0,
+	length:10,
+	properties:props
+);
+
+track.addItem(item);
+project.addTrack(track);
+
+)
+::
+
+SECTION:: Examples
+
+SUBSECTION:: Simple example: Creating a project
+
+CODE::
+/*
+
+This example creates a Reaper Project, adds 100 tracks to it and places an item on each of those tracks
+
+*/
+(
+var projectPath = "~/tmp/reacollider-%.RPP".format(Date.getDate.stamp).asAbsolutePath;
+var project = ReaProj.new;
+var numTracks = 100;
+var tracks = numTracks.collect{|i|
+	var props = ();
+
+	// Track name
+	props.put(\NAME, "supercollider_track_%".format(i));
+
+	ReaTrack.new(props)
+};
+
+// A sound source
+var aSoundSource = Platform.systemAppSupportDir +/+ "sounds" +/+ "a11wlk01.wav";
+var sourceInfo = SoundFile.openRead(aSoundSource).close;
+
+var itemProperties = (NAME: PathName(aSoundSource).fileNameWithoutExtension);
+var itemPlacement = 0;
+
+// Create an item from the sound source
+var anItem = ReaItem.new(
+	source:aSoundSource,
+	start:itemPlacement,
+	length:sourceInfo.duration,
+	properties:itemProperties
+);
+
+// Add tracks
+tracks.do{|track|
+	track.addItem(anItem);
+	project.addTrack(track)
+};
+
+// Create the project
+project.write(projectPath);
+
+// projectPath.openOS;
+
+)
+::
+
+KEYWORD:: Reaper
