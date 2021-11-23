@@ -48,10 +48,8 @@ ReaProj : ReaBase {
             {};
         );
 
-
         this.str = this.str ++ format(">\n");
     }
-
 
     addTrack {
         arg track;
@@ -115,4 +113,3 @@ ReaItem : ReaBase {
         )
     }
 }
-
