@@ -1,0 +1,22 @@
+TITLE::ReaBase
+SUMMARY::Baseclass for reaper items and projects and tracks
+CATEGORIES::Reaper
+RELATED::Classes/Class
+
+DESCRIPTION::
+See LINK::Overview/ReaCollider:: for usage.
+
+INSTANCEMETHODS::
+METHOD::name
+
+METHOD::chain
+
+METHOD::str
+
+METHOD::props
+
+EXAMPLES::
+
+CODE::
+// TODO
+::

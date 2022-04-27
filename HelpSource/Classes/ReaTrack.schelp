@@ -1,0 +1,24 @@
+TITLE::ReaTrack
+SUMMARY::A reaper Track
+CATEGORIES::Reaper
+RELATED::Classes/Class
+
+DESCRIPTION::
+See LINK::Overview/ReaCollider:: for usage.
+
+CLASSMETHODS::
+METHOD::new
+ARGUMENT::properties
+
+INSTANCEMETHODS::
+METHOD::init
+ARGUMENT::properties
+
+METHOD::addItem
+ARGUMENT::item
+
+EXAMPLES::
+
+CODE::
+// TODO
+::

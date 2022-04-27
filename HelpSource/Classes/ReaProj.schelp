@@ -1,0 +1,35 @@
+TITLE::ReaProj
+SUMMARY::A reaper project
+CATEGORIES::Reaper
+RELATED::Classes/Class
+
+DESCRIPTION::
+
+See LINK::Overview/ReaCollider:: for usage.
+
+CLASSMETHODS::
+METHOD::new
+ARGUMENT::properties
+
+INSTANCEMETHODS::
+METHOD::init
+ARGUMENT::properties
+
+METHOD::getChain
+
+METHOD::getStr
+
+METHOD::traverse
+ARGUMENT::origin
+
+METHOD::addTrack
+ARGUMENT::track
+
+METHOD::write
+ARGUMENT::path
+
+EXAMPLES::
+
+CODE::
+// TODO
+::

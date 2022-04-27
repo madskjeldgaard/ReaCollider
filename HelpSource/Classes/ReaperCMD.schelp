@@ -1,0 +1,20 @@
+TITLE::ReaperCMD
+SUMMARY::An interface for the reaper command line tool
+CATEGORIES::Reaper
+RELATED::Classes/Class
+
+DESCRIPTION::
+
+CLASSMETHODS::
+METHOD::executableName
+
+METHOD::prIsReaperExecutable
+
+METHOD::runCommand
+ARGUMENT::argumentString
+
+EXAMPLES::
+
+CODE::
+// TODO
+::

@@ -1,0 +1,80 @@
+TITLE::ReaperBatch
+SUMMARY::Batch convert sound files using reaper
+CATEGORIES::Reaper
+RELATED::Classes/ReaperCMD
+
+DESCRIPTION::
+This is an interface for reaper's command line batchconverter.
+
+To make use of this, you need to open up Reaper and create and save an FX chain.
+The file name of the fx chain can then be used with this command to batch
+process sound files through that chain.
+
+CLASSMETHODS::
+METHOD::convert
+ARGUMENT::fileNameArray
+Array of file name strings ala: [["infile1.wav", "outfile1.wav"], ["infile2.wav", "outfile2.wav"]]
+
+File name strings are standardized inside of the class so code::~/yo.wav::
+automatically is unfolded to code::/home/mads/yo.wav::
+
+ARGUMENT::fxchainfilename
+(use full path if specified, otherwise FxChains directory)
+
+ARGUMENT::outpath
+output folder path
+
+ARGUMENT::sampleRate
+Use source if nil
+
+ARGUMENT::numChans
+Use source if nil
+
+ARGUMENT::dither
+1=dither, 2=noise shaping, 3=both)
+
+ARGUMENT::usesrcstart
+1=write source media BWF start offset to output)
+
+ARGUMENT::usesrcmetadata
+1=attempt to preserve original media file metadata if possible)
+
+ARGUMENT::padstart
+(leading silence in sec, can be negative)
+
+ARGUMENT::padend
+(trailing silence in sec, can be negative)
+
+ARGUMENT::outpattern
+A wildcard as string
+
+ARGUMENT::normalize
+1=peak, 2=true peak, 3=lufs-i, 4=lufs-s, 5=lufs-m,
+
+ARGUMENT::normalizedb
+Normalization level in dB
+
+ARGUMENT::normalizeonlyiftooloud
+1=normalize only if too loud
+
+ARGUMENT::brickwall
+(1=peak, 2=true peak, 2nd parameter is dB)
+
+ARGUMENT::brickwalldb
+Brickwall level in dB
+
+ARGUMENT::fxnumchans
+(if not specified, FX will be configured to 4 channels)
+
+EXAMPLES::
+
+CODE::
+ReaperBatch.convert([
+		["~/infile1.wav", "~/outfile1.wav"],
+		["~/infile2.wav", "~/outfile2.wav"],
+		["~/infile3.wav", "~/outfile3.wav"],
+],
+"valhal.RfxChain",
+"~/"
+)
+::

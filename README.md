@@ -1,6 +1,8 @@
 # ReaCollider
 
-Generate Reaper projects from within SuperCollider, including adding tracks and items and their properties. 
+Use Reaper from SuperCollider. 
+
+Currently this package includes ways to generate projects for Reaper and an interface for the reaper-commandline tools, allowing among other things batch conversion of sound files from within SuperCollider using Reaper's fxchains.
 
 ## Installation
 

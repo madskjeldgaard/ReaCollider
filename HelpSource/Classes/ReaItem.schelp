@@ -1,0 +1,27 @@
+TITLE::ReaItem
+SUMMARY::A reaper item
+CATEGORIES::Reaper
+RELATED::Classes/Class
+
+DESCRIPTION::
+See LINK::Overview/ReaCollider:: for usage.
+
+CLASSMETHODS::
+METHOD::new
+ARGUMENT::source
+ARGUMENT::start
+ARGUMENT::length
+ARGUMENT::properties
+
+INSTANCEMETHODS::
+METHOD::init
+ARGUMENT::source
+ARGUMENT::start
+ARGUMENT::length
+ARGUMENT::properties
+
+EXAMPLES::
+
+CODE::
+// TODO
+::
