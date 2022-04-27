@@ -16,7 +16,7 @@ ReaperBatch : ReaperCMD {
                     });
 
                     res
-                },
+                } &&
                 fileNameArray.every{|fileNamePair|
                     (fileNamePair.size == 2) &&
                     (fileNamePair.every{|fn| fn.isKindOf(String)})
