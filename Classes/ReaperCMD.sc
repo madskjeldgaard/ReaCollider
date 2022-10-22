@@ -1,7 +1,24 @@
 ReaperCMD{
-    // TODO: Include custom prefixes
-    *executableName{
-        ^"reaper"
+    classvar <>executableName;
+
+    *initClass{
+
+        // Set default for executable, if it isn't set already
+        if(executableName.isNil, {
+
+            Platform.case(
+                \osx,       {
+                    executableName = "/Applications/REAPER.app/Contents/MacOS/REAPER"
+                },
+                \linux,     {
+                    executableName ="reaper"
+                },
+                \windows,   {
+                    // TODO
+                }
+            );
+
+        });
     }
 
     *prIsReaperExecutable{
