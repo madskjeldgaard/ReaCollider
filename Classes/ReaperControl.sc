@@ -1,6 +1,10 @@
 ReaperControl{
     classvar <>port, <>netAddr, <started=false;
 
+    *initClass{
+        this.addEventTypes();
+    }
+
     *start{|port=1234|
         ^this.init(port);
     }
@@ -89,6 +93,51 @@ ReaperControl{
 
     *setTrackMute{|trackNum, mute|
         this.send("/track/%/mute".format(trackNum), mute);
+    }
+
+    // Add custom event types to control Reaper with patterns
+    *addEventTypes{
+
+        /*
+        // \reaperTrack
+        // Example:
+
+        (
+            r = ReaperControl.start(9292);
+            Pdef(\r,
+                Pbind(
+                    \type, \reaperTrack,
+                    \reaperControl, r,
+                    \reaperTrack, 1,
+                    \volume, Pwhite(0.0,1.0),
+                    \pan, Pwhite(-1.0,1.0)
+                )
+            ).play;
+        )
+        */
+        Event.addEventType(type:\reaperTrack, func:{
+            var control = ~reaperControl;
+
+            control.isNil.if({
+                "reaperControl not found".error;
+            }, {
+                // Filter out keys that are not meant to be sent to the server or to this event
+                var ignoreKeys = [\reaperControl, \reaperTrack, \server, \type, \trackNum];
+                var envirKeys = currentEnvironment.keys.asArray.reject{|key|
+                    ignoreKeys.includes(key);
+                };
+
+                var trackNum = ~trackNum ? 1;
+
+                // The rest are sent off to the track
+                envirKeys.do{|envirKey|
+                    control.send("/track/%/%".format(trackNum, envirKey).postln, currentEnvironment.at(envirKey).postln)
+                };
+
+                envirKeys.postln;
+
+            })
+        });
     }
 
 }
