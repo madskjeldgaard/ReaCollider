@@ -1,16 +1,23 @@
 ReaperControl{
+
+    classvar <reaperPort = 6262;
+    classvar <trackInfo;
     classvar <>port, <>netAddr, <started=false;
 
     *initClass{
         this.addEventTypes();
     }
 
-    *start{|port=1234|
-        ^this.init(port);
+    *start{|targetPort=1234, receivePort=6262|
+        ^this.init(targetPort, receivePort);
     }
 
-    *init{|port|
+    *init{|port, receivePort|
         netAddr = NetAddr.localAddr.port_(port);
+        reaperPort = receivePort;
+
+        "%: Opening upd port %".format(this.name, receivePort).postln;
+        thisProcess.openUDPPort(receivePort);
         started = true;
     }
 
@@ -94,6 +101,77 @@ ReaperControl{
     *setTrackMute{|trackNum, mute|
         this.send("/track/%/mute".format(trackNum), mute);
     }
+
+    //------------------------------------------------------------------//
+    //                       Feedback from Reaper                       //
+    //------------------------------------------------------------------//
+
+    // This will make Reaper blast back all info about every single thing
+    *query{
+        this.send("/action/41743")
+    }
+
+    // Get info from Reaper and store it in this class
+    *syncInfo{
+        var maxNumTracks = 64;
+        var maxNumFX = 64;
+
+        trackInfo = Dictionary.new;
+
+        // Set up one time responders
+        (1..maxNumTracks-1).do{|trackNum|
+            var trackNamePath;
+
+            // Get track info
+            trackNamePath = "/track/%/name".format(trackNum);
+            OSCFunc({|msg|
+                "Got track name for track num %: %".format(trackNum, msg[1].asString).postln;
+
+                trackInfo[trackNum.asSymbol].isNil.if({
+                    trackInfo[trackNum.asSymbol] = Dictionary.new;
+                });
+
+                trackInfo[trackNum.asSymbol].put(\name, msg[1].asString);
+                trackInfo[trackNum.asSymbol].put(\trackNum, trackNum);
+                trackInfo[trackNum.asSymbol].put(\fxNames, Dictionary.new);
+
+            }, path:trackNamePath, recvPort:reaperPort).oneShot;
+
+            // Get fx info
+            (1..maxNumFX-1).do{|fxNum|
+                OSCFunc({|msg|
+                    var fxName = msg[1].asString;
+
+                    (fxName != "" && fxName.notNil).if({
+                        "Got fx name: %".format(fxName).postln;
+
+                        trackInfo[trackNum.asSymbol].isNil.if({
+                            trackInfo[trackNum.asSymbol] = Dictionary.new;
+                        });
+
+                        trackInfo[trackNum.asSymbol][\fxNames].put(fxNum.asSymbol, fxName);
+
+                    })
+
+                },
+                path:"/track/%/fx/%/name".format(trackNum, fxNum),
+                recvPort:reaperPort
+            ).oneShot;
+        };
+    };
+
+    // Get info
+    this.query();
+
+}
+
+    *setFXParamOfTrackNum{|trackNum, fxNum, paramNum, paramValue|
+        this.send("/track/%/fx/%/fxparam/%/value".format(trackNum, fxNum, paramNum), paramValue)
+    }
+
+    //------------------------------------------------------------------//
+    //                               Misc                               //
+    //------------------------------------------------------------------//
 
     // Add custom event types to control Reaper with patterns
     *addEventTypes{
