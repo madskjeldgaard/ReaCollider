@@ -42,7 +42,7 @@ var tracks = numTracks.collect{|i|
 };
 
 // A sound source
-var aSoundSource = Platform.systemAppSupportDir +/+ "sounds" +/+ "a11wlk01.wav";
+var aSoundSource = Platform.resourceDir +/+ "sounds" +/+ "a11wlk01.wav";
 var sourceInfo = SoundFile.openRead(aSoundSource).close;
 
 /*
