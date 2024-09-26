@@ -2,7 +2,7 @@
   name: "ReaCollider",
   summary: "Generate Reaper Projects from SuperCollider",
   version: "0.001",
-  schelp: "ReaCollider.schelp",
+  schelp: "Overview/ReaCollider",
   dependencies: nil,
   license: "GNU GPL v3.0",
   copyright: "James Bradbury, Mads Kjeldgaard",
